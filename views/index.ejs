@@ -57,7 +57,7 @@ h1{
     <ul id="messages"></ul>
     
     <div>
-    
+      <!--  <div id="typing" >Someone is Typing...</div> -->
          <form action="/" method="POST" id="chatForm">
       <input id="txt" autocomplete="off" autofocus="on" oninput="isTyping()" placeholder="type your message here..." /><button class="btn btn-success">Send</button>
     </form>
@@ -74,7 +74,9 @@ h1{
                 $('#txt').val('');
                 return false;
             });
-           
+            // $(input).addEventListener('change', ()=>{
+            //     $(#typing).classList.toggle="display";
+            // });
 
             // append the chat text message
             socket.on('chat_message', msg =>{
