@@ -4,6 +4,7 @@
   "description": "A simple group chat built using Node.js and Socket.io",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Aman Verma",
