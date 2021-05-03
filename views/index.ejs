@@ -6,19 +6,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <style >
     
-        * { 
-    margin: 0;
-    padding: 0; 
-    box-sizing: border-box;
-   }
-body {
+        body {
      font: 13px Helvetica, Arial
      background-color:teal;
+     overflow-y: scroll;
+    
     }
+    
 form { 
     background: #fff; 
-    padding: 3px; position: 
-    fixed; bottom: 0; width: 100%; 
+    padding: 3px; 
+    position: fixed; 
+    bottom: 0; 
+    width: 100%; 
     border-color: #000; 
     border-top-style: solid; 
     border-top-width: 1px;}
@@ -32,11 +32,16 @@ form button {
             border: none; 
             padding: 10px; 
             margin-left: 2%; }
+
 #messages { 
-            list-style-type: none; margin: 0; padding: 0; 
+            list-style-type: none; margin: 0; padding: 0;
+            height:555px; 
+            overflow-y: scroll;
         }
 #messages li { 
             padding: 5px 10px; 
+            font-size:22px;
+            
         }
 #messages li:nth-child(odd) { 
     background: #eee; 
@@ -45,6 +50,7 @@ h1{
     text-align: center;
     
 }
+
 @media(max-width: 786px){
     i{
         font-size: 20px;
@@ -53,6 +59,10 @@ h1{
         font-size: 10px;
         border-radius:10px;
         padding: 5px;
+    }
+    #messages{
+        list-style-type: none; margin: 0; padding: 0;
+        height: 512px; 
     }
 }
     </style>
@@ -74,6 +84,7 @@ h1{
    
     <script>
             const socket = io.connect("https://chatting-app-by-aman.herokuapp.com/");
+            const messages = document.querySelector('#messages')
            
             // submit text message without reload/refresh the page
             $('form').submit(e => {
@@ -88,10 +99,12 @@ h1{
             // append the chat text message
             socket.on('chat_message', msg =>{
                 $('#messages').append($('<li>').html(msg));
+                 messages.scrollTop=messages.scrollHeight;
             });
             // append text if someone is online
             socket.on('is_online', username => {
                 $('#messages').append($('<li>').html(username));
+                 messages.scrollTop=messages.scrollHeight;
             });
             // ask username
             var username = prompt('Please tell me your name') || "anonymous";
