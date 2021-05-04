@@ -22,11 +22,13 @@ io.sockets.on('connection', function(socket) {
         io.emit('chat_message', '<strong>' + socket.username + '</strong>: ' + message);
     });
 
-});
-
-socket.on('password',password =>{
+    socket.on('password',password =>{
     if(password!=="1515")
         socket.disconnect();
+
+});
+
+
 });
 
  const port = process.env.PORT || 8080;
