@@ -93,7 +93,17 @@ span{
     <script>
             const socket = io.connect("https://chatting-app-by-aman.herokuapp.com/");
             const messages = document.querySelector('#messages')
+
+            // ask username
+            const username = prompt('Please tell me your name') || "anonymous";
+            const password=prompt("password");
+
+
+             socket.emit('password',password);
+            socket.emit('username', username);
            
+
+
             // submit text message without reload/refresh the page
             $('form').submit(e => {
                 e.preventDefault(); // prevents page reloading
@@ -101,22 +111,25 @@ span{
                 $('#txt').val('');
                 return false;
             });
-            // $(input).addEventListener('change', ()=>{
-            //     $(#typing).classList.toggle="display";
-            // });
-            // append the chat text message
+          
             socket.on('chat_message', msg =>{
-                $('#messages').append($('<li>').html(msg));
+                let li = $('<li>');
+                li.html(msg);
+                 if(msg!=="")
+                $('#messages').append(li);
+            
                  messages.scrollTop=messages.scrollHeight;
             });
+           
             // append text if someone is online
             socket.on('is_online', username => {
-                $('#messages').append($('<li>').html(username));
-                 messages.scrollTop=messages.scrollHeight;
+                if(username!==`😢<i>${username} left the chat..</i>`){       
+                    $('#messages').append($('<li>').html(username));
+                    messages.scrollTop=messages.scrollHeight;
+             }
             });
-            // ask username
-            var username = prompt('Please tell me your name') || "anonymous";
-            socket.emit('username', username);
+            
+            
     </script>
   </body>
 </html>

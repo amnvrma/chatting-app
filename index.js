@@ -24,6 +24,11 @@ io.sockets.on('connection', function(socket) {
 
 });
 
+socket.on('password',password =>{
+    if(password!=="1515")
+        socket.disconnect();
+});
+
  const port = process.env.PORT || 8080;
 const server = http.listen(port, function() {
     console.log(`listening on *:${port}`);
