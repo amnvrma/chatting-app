@@ -4,83 +4,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>chatting web app</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-    <style >
-    
-        body {
-     font: 13px Helvetica, Arial
-     background-color:teal;
-    
-    }
-    
-form { 
-    background: #fff; 
-    padding: 3px; 
-    position: fixed; 
-    bottom: 0; 
-    width: 100%; 
-    border-color: #000; 
-    border-top-style: solid; 
-    border-top-width: 1px;}
-form input { 
-            border-style: solid; 
-            border-width: 1px; 
-            padding: 10px; width: 85%; margin-right: .5%; 
-    }
-form button { 
-            width: 9%; background: rgb(130, 224, 255); 
-            border: none; 
-            padding: 10px; 
-            margin-left: 2%; }
-
-#messages { 
-            list-style-type: none; margin: 0; padding: 0;
-            height:555px; 
-            overflow-y: scroll;
-        }
-#messages li { 
-            padding: 5px 10px; 
-            font-size:22px;
-            
-        }
-#messages li:nth-child(odd) { 
-    background: #eee; 
-}
-h1{
-    text-align: center;
-    letter-spacing: 0.1em;
-}
-#top{
-    font-size: 1em;
-
-}
-span{
-    display: flex;
-    justify-content: center;
-    margin-bottom:3px;
-}
-
-@media(max-width: 786px){
-    i{
-        font-size: 20px;
-    }
-    .btn-success{
-        font-size: 10px;
-        border-radius:10px;
-        padding: 5px;
-    }
-    #messages{
-        list-style-type: none; margin: 0; padding: 0;
-        height: 512px; 
-    }
-}
-    </style>
+    <link rel="stylesheet" href="/style.css">
    <!--  <link rel="stylesheet" type="text/css" href="app.css"> -->
     <script src="../../socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
 
   </head>
   <body>
-    <h1>Chatter Box</h1> <span><i id="top">Made with ❤ by Aman</i></span>
+    <h1>Chatter Box</h1> <span><i id="top">Made with ❤️ by Aman</i></span>
     <ul id="messages"></ul>
     
     <div>
@@ -89,47 +20,7 @@ span{
       <input id="txt" autocomplete="off" autofocus="on" oninput="isTyping()" placeholder="type your message here..." /><button class="btn btn-success">Send</button>
     </form>
     </div>
-   
-    <script>
-            const socket = io.connect('https://chatting-app-by-aman.herokuapp.com/');
-            const messages = document.querySelector('#messages')
-
-            // ask username
-            const username = prompt('Please tell me your name') || "anonymous";
-           // const password=prompt("password");
-
-
-             //socket.emit('password',password);
-            socket.emit('username', username);
-           
-
-
-            // submit text message without reload/refresh the page
-            $('form').submit(e => {
-                e.preventDefault(); // prevents page reloading
-                socket.emit('chat_message', $('#txt').val());
-                $('#txt').val('');
-                return false;
-            });
-          
-            socket.on('chat_message', msg =>{
-                let li = $('<li>');
-                li.html(msg);
-                 if(msg!=="")
-                $('#messages').append(li);
-            
-                 messages.scrollTop=messages.scrollHeight;
-            });
-           
-            // append text if someone is online
-            socket.on('is_online', username => {
-                if(username!=="😢<i>undefined left the chat..</i>"){       
-                    $('#messages').append($('<li>').html(username));
-                    messages.scrollTop=messages.scrollHeight;
-             }
-            });
-            
-            
-    </script>
+   <script src="client.js"></script>
+    
   </body>
 </html>
