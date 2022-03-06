@@ -1,6 +1,6 @@
 
-// const socket = io.connect('https://chatting-app-by-aman.herokuapp.com/');
-const socket = io.connect('http://localhost:8080');
+const socket = io.connect('https://chatting-app-by-aman.herokuapp.com/');
+// const socket = io.connect('http://localhost:8080');
 const messages = document.querySelector('#messages')
 
 // ask username
