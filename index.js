@@ -1,37 +1,30 @@
 const express = require('express');
 const app = express();
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
+const server = require('http').createServer(app);
+const io = require("socket.io")(server);
+app.use(express.static('public'));
 
-app.get('/', function(req, res) {
-    res.render('index.ejs');
-});
-
-io.sockets.on('connection', function(socket) {
-    socket.on('username', function(username) {
+io.on('connection',socket =>{
+    socket.on('username',username =>{
         socket.username = username;
-        io.emit('is_online', '✔<i>' + socket.username + ' joined the chat..</i>');
+        io.emit('is_online', '✔️<i>' + socket.username + ' joined the chat..</i>');
     });
 
-    socket.on('disconnect', function(username) {
-        io.emit('is_online', '😢<i>' + socket.username + ' left the chat..</i>');
-    })
-
-    socket.on('chat_message', function(message) {
+    socket.on('chat_message', message => {
         if(message !== "")
-        io.emit('chat_message', '<strong>' + socket.username + '</strong>: ' + message);
+        io.emit('append', '<strong>' + socket.username + '</strong>: ' + message);
     });
 
-//     socket.on('password',password =>{
-//     if(password!=="1515")
-//         socket.disconnect();
+    socket.on('disconnect', username => {
+        
+            io.emit('is_offline', '😥<i>' + socket.username + ' left the chat..</i>');
+    });
+} )     
 
-// });
+const port = process.env.PORT || 8080;
+server.listen(port,() => console.log(`running on port ${port}`));
 
+app.get('/', (req,res) =>{
+    res.render("index.ejs");
+})
 
-});
-
- const port = process.env.PORT || 8080;
-const server = http.listen(port, function() {
-    console.log(`listening on *:${port}`);
-});
